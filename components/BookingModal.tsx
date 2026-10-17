@@ -154,14 +154,55 @@ export function BookingModal({
           medicalNotes,
         }),
       });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to create booking");
+
+      // Redirect user to PayFast checkout
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = data.payfastUrl;
+
+      Object.entries(data.payfastData).forEach(([key, val]) => {
+        if (val !== undefined && val !== null) {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = key;
+          input.value = String(val);
+          form.appendChild(input);
+        }
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+    } catch (err: any) {
+      setIsSubmitting(false);
+      triggerShake("submit", err.message || "Failed to process booking");
+    }
+  };
+
+  const handleSimulateTestConfirmation = async () => {
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/bookings/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          serviceId: selectedServiceId,
+          patientName,
+          patientPhone,
+          patientEmail,
+          patientAddress,
+          area,
+          appointmentDate,
+          timeSlot,
+          paymentChoice,
+          medicalNotes,
+        }),
+      });
 
       const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to create booking");
-      }
+      if (!res.ok) throw new Error(data.error || "Failed to create booking");
 
-      // If in dev/sandbox, we simulate the PayFast confirmation so the user experiences the immediate success modal
-      // We also provide the option to submit the PayFast form directly
       const simRes = await fetch("/api/bookings/simulate-payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -174,7 +215,7 @@ export function BookingModal({
       onBookingSuccess(simData.booking || data.booking);
     } catch (err: any) {
       setIsSubmitting(false);
-      triggerShake("submit", err.message || "Failed to process booking");
+      triggerShake("submit", err.message || "Simulation failed");
     }
   };
 
@@ -617,23 +658,34 @@ export function BookingModal({
           )}
 
           {step === 3 && (
-            <button
-              onClick={handleSubmitBooking}
-              disabled={isSubmitting}
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-xs font-bold text-white bg-[#B81D24] hover:bg-[#941319] shadow-lg shadow-red-600/30 transition-all active:scale-95 disabled:opacity-50"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Securing Booking...</span>
-                </>
-              ) : (
-                <>
-                  <CreditCard className="w-4 h-4" />
-                  <span>Pay with PayFast (R{amountToPayNow.toFixed(2)})</span>
-                </>
-              )}
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleSimulateTestConfirmation}
+                disabled={isSubmitting}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-[11px] font-bold text-zinc-600 bg-zinc-200 hover:bg-zinc-300 transition-colors"
+                title="Bypasses real bank payment for instant testing"
+              >
+                ⚡ Instant Test Mode
+              </button>
+              <button
+                onClick={handleSubmitBooking}
+                disabled={isSubmitting}
+                className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 rounded-full text-xs font-bold text-white bg-[#B81D24] hover:bg-[#941319] shadow-lg shadow-red-600/30 transition-all active:scale-95 disabled:opacity-50"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Redirecting to PayFast...</span>
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-4 h-4" />
+                    <span>Pay with PayFast (R{amountToPayNow.toFixed(2)})</span>
+                  </>
+                )}
+              </button>
+            </div>
           )}
         </div>
 
