@@ -1,0 +1,88 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String   @default("Sr Grace")
+  role         String   @default("SUPER_ADMIN")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Service {
+  id                 String    @id @default(cuid())
+  name               String
+  slug               String    @unique
+  category           String    @default("General")
+  shortDescription   String
+  fullDescription    String
+  price              Float
+  retainerPercentage Float     @default(30.0)
+  durationMinutes    Int       @default(45)
+  icon               String    @default("stethoscope")
+  prepInstructions   String?
+  isActive           Boolean   @default(true)
+  displayOrder       Int       @default(0)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  bookings           Booking[]
+}
+
+model Booking {
+  id               String               @id @default(cuid())
+  referenceCode    String               @unique
+  serviceId        String
+  service          Service              @relation(fields: [serviceId], references: [id])
+  patientName      String
+  patientPhone     String
+  patientEmail     String
+  patientAddress   String
+  area             String               @default("Nellmapius")
+  appointmentDate  String
+  timeSlot         String
+  medicalNotes     String?
+  paymentChoice    String               @default("RETAINER_30") // "RETAINER_30" or "FULL_100"
+  totalAmount      Float
+  amountPaid       Float                @default(0.0)
+  balanceDue       Float
+  status           String               @default("PENDING_PAYMENT") // PENDING_PAYMENT, CONFIRMED, COMPLETED, CANCELLED
+  payfastPaymentId String?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  payments         PaymentTransaction[]
+}
+
+model PaymentTransaction {
+  id             String   @id @default(cuid())
+  bookingId      String
+  booking        Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  pfPaymentId    String?
+  paymentStatus  String
+  amountGross    Float
+  amountFee      Float?
+  amountNet      Float?
+  signatureValid Boolean  @default(false)
+  rawPayload     String?
+  createdAt      DateTime @default(now())
+}
+
+model ClinicSetting {
+  id                     String   @id @default("default")
+  clinicName             String   @default("Kenala Health Hub")
+  practitionerName       String   @default("Sr Grace")
+  phone                  String   @default("079 559 7208")
+  whatsappNumber         String   @default("079 011 8464")
+  address                String   @default("Corner Love drive & Alwyn str, ext 4, Nellmapius")
+  operatingHours         String   @default("Mon-Sat: 08:00 - 17:00, Sun: By appointment")
+  defaultRetainerPercent Float    @default(30.0)
+  adminAlertEmail        String   @default("info@kenalahealthhub.co.za")
+  updatedAt              DateTime @updatedAt
+}

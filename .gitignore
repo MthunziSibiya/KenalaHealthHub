@@ -1,0 +1,32 @@
+# Next.js build output
+.next/
+out/
+build/
+dist/
+
+# Dependencies
+node_modules/
+
+# Local databases & env
+dev.db
+*.db
+*.db-journal
+.env
+.env.local
+.env.*.local
+
+# IDE & Local
+.vs/
+.vscode/
+_legacy_archive/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS
+Thumbs.db
+[Dd]esktop.ini
+.DS_Store
