@@ -50,11 +50,8 @@ export function BrandLogo({ variant = "full", className = "", size = "md" }: Bra
 
       {variant !== "icon-only" && (
         <div className="flex flex-col leading-none">
-          <div className="flex items-baseline gap-1">
-            <span
-              className={`font-serif italic font-bold tracking-tight text-[#B81D24] ${titleSizes[size]}`}
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-            >
+          <div className="flex items-baseline gap-1.5">
+            <span className={`font-black tracking-tight text-[#B81D24] ${titleSizes[size]}`}>
               Kenala
             </span>
             <span className={`font-black tracking-wide text-zinc-900 ${titleSizes[size]}`}>

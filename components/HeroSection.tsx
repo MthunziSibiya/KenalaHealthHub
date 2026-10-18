@@ -33,14 +33,6 @@ export function HeroSection({ onOpenBooking, onExploreServices }: HeroSectionPro
           
           {/* Left Column: Headlines & Call to Actions */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
-            
-            {/* Real-time Status Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 text-white text-xs font-semibold shadow-sm mb-6">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-              <span>Available in Nellmapius & Pretoria East</span>
-              <span className="text-zinc-500">•</span>
-              <span className="text-[#E02830]">Secured with 30% Retainer</span>
-            </div>
 
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-zinc-900 tracking-tight leading-[1.15]">

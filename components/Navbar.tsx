@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { BrandLogo } from "./BrandLogo";
-import { Phone, MessageCircle, Clock, ShieldCheck, Menu, X } from "lucide-react";
+import { Phone, MessageCircle, Clock, MapPin, Menu, X } from "lucide-react";
 
 interface NavbarProps {
   onOpenBooking?: () => void;
@@ -14,7 +14,7 @@ export function Navbar({ onOpenBooking }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-zinc-200 shadow-sm transition-all duration-200">
-      {/* Top Banner (Hours & Emergency notice) */}
+      {/* Top Banner (Hours & Location notice) */}
       <div className="bg-[#111111] text-white text-xs py-1.5 px-4 hidden sm:block">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4 text-zinc-300">
@@ -23,25 +23,20 @@ export function Navbar({ onOpenBooking }: NavbarProps) {
               Mon – Sat: 08:00 – 17:00 | Sun: By appointment
             </span>
             <span className="text-zinc-500">•</span>
-            <span className="text-zinc-300">
-              📍 Corner Love drive & Alwyn str, ext 4, Nellmapius
+            <span className="flex items-center gap-1.5 text-zinc-300">
+              <MapPin className="w-3.5 h-3.5 text-[#B81D24] flex-shrink-0" />
+              Corner Love drive & Alwyn str, ext 4, Nellmapius
             </span>
           </div>
-          <div className="flex items-center gap-4">
-            <Link
-              href="/admin"
-              className="flex items-center gap-1 text-zinc-400 hover:text-white transition-colors"
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-[#B81D24]" />
-              Admin Portal
-            </Link>
+          <div className="flex items-center gap-4 text-zinc-400 text-[11px]">
+            <span>Nellmapius • Pretoria East</span>
           </div>
         </div>
       </div>
 
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center focus:outline-none">
             <BrandLogo size="md" />
@@ -122,22 +117,14 @@ export function Navbar({ onOpenBooking }: NavbarProps) {
               <MessageCircle className="w-4 h-4" />
               WhatsApp: 079 011 8464
             </a>
-            <div className="text-xs text-zinc-600 mt-2">
-              📍 Corner Love drive & Alwyn str, ext 4, Nellmapius
+            <div className="flex items-center gap-1.5 text-xs text-zinc-600 mt-2">
+              <MapPin className="w-3.5 h-3.5 text-[#B81D24] flex-shrink-0" />
+              Corner Love drive & Alwyn str, ext 4, Nellmapius
             </div>
-            <div className="text-xs text-zinc-600">
-              ⏰ Mon – Sat: 08:00 – 17:00
+            <div className="flex items-center gap-1.5 text-xs text-zinc-600">
+              <Clock className="w-3.5 h-3.5 text-[#B81D24] flex-shrink-0" />
+              Mon – Sat: 08:00 – 17:00
             </div>
-          </div>
-
-          <div className="pt-2">
-            <Link
-              href="/admin"
-              className="flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-zinc-900"
-            >
-              <ShieldCheck className="w-4 h-4 text-[#B81D24]" />
-              Admin Portal
-            </Link>
           </div>
         </div>
       )}
