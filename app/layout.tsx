@@ -6,7 +6,11 @@ export const metadata: Metadata = {
   description:
     "Professional clinical healthcare and mobile nursing provider in Nellmapius and Pretoria East. Antenatal care, baby & adult immunisation, family planning, blood tests, and wound care.",
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-icon.svg",
   },
 };
 

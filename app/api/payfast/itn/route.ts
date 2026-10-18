@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     console.log("[PayFast ITN Received]:", data);
 
     const receivedSignature = data.signature;
-    const passphrase = process.env.PAYFAST_PASSPHRASE || "jt7NOE43FZPn";
+    const passphrase = (process.env.PAYFAST_PASSPHRASE || "").trim();
 
     // Verify signature
     const calculatedSignature = generatePayFastSignature(data, passphrase);

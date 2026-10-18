@@ -1,33 +1,32 @@
 import React from "react";
-import Link from "next/link";
 import { BrandLogo, EcgPulseLine } from "./BrandLogo";
-import { Phone, MessageCircle, MapPin, Clock, ShieldCheck, Heart } from "lucide-react";
+import { Phone, MessageCircle, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-[#111111] text-white pt-14 pb-8 border-t-4 border-[#B81D24]">
+    <footer className="bg-[#111111] text-white pt-8 pb-5 border-t-4 border-[#B81D24]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-zinc-800">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pb-6 border-b border-zinc-800">
           
           {/* Brand Col */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <BrandLogo size="md" className="brightness-125" />
             <p className="text-xs text-zinc-400 leading-relaxed">
               Bringing high-standard, compassionate mobile and in-clinic primary healthcare,
               antenatal care, family planning, and immunisations to Nellmapius and Pretoria East.
             </p>
-            <div className="pt-2">
+            <div className="pt-1">
               <EcgPulseLine />
             </div>
           </div>
 
           {/* Quick Contact */}
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#E02830]">
               Direct Contact
             </h4>
             <div className="space-y-2 text-xs text-zinc-300">
-              <p className="font-semibold text-white">Sister In Charge: Sr Grace</p>
+              <p className="font-bold text-white uppercase tracking-wider">SR GRACE</p>
               <a
                 href="tel:0795597208"
                 className="flex items-center gap-2 hover:text-white transition-colors"
@@ -52,11 +51,11 @@ export function Footer() {
           </div>
 
           {/* Operating Hours */}
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#E02830]">
               Clinic Hours
             </h4>
-            <div className="space-y-2 text-xs text-zinc-300">
+            <div className="space-y-1.5 text-xs text-zinc-300">
               <div className="flex justify-between border-b border-zinc-800 pb-1">
                 <span>Monday – Friday:</span>
                 <span className="font-bold text-white">08:00 – 17:00</span>
@@ -76,7 +75,7 @@ export function Footer() {
           </div>
 
           {/* Key Services & Areas */}
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#E02830]">
               Coverage Areas
             </h4>
@@ -88,24 +87,14 @@ export function Footer() {
               <span className="px-2 py-1 rounded bg-zinc-800">Faerie Glen</span>
               <span className="px-2 py-1 rounded bg-zinc-800">Moreleta Park</span>
             </div>
-            <div className="pt-3">
-              <Link
-                href="/admin"
-                className="inline-flex items-center gap-1.5 text-xs text-zinc-500 hover:text-white transition-colors"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-[#B81D24]" />
-                Admin Dashboard & JWT Access
-              </Link>
-            </div>
           </div>
 
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
-          <p>© {new Date().getFullYear()} Kenala Health Hub (Pty) Ltd. All rights reserved.</p>
-          <p className="flex items-center gap-1">
-            Built with <Heart className="w-3.5 h-3.5 text-[#B81D24] fill-[#B81D24]" /> for South African Healthcare.
+        {/* Bottom Bar: Centered Copyright, Removed Built With Heart & Admin Portal */}
+        <div className="pt-4 text-center">
+          <p className="text-xs text-zinc-500">
+            Copyright © 2024 Kenala Health Hub (Pty) Ltd. All rights reserved.
           </p>
         </div>
       </div>

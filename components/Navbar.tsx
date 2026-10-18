@@ -45,8 +45,8 @@ export function Navbar({ onOpenBooking }: NavbarProps) {
           {/* Desktop Nav Actions */}
           <div className="hidden md:flex items-center gap-6">
             <div className="flex flex-col text-right">
-              <span className="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">
-                Sister In Charge: Sr Grace
+              <span className="text-[11px] font-bold text-zinc-700 uppercase tracking-wider">
+                SR GRACE
               </span>
               <div className="flex items-center gap-3 mt-0.5">
                 <a
@@ -100,7 +100,7 @@ export function Navbar({ onOpenBooking }: NavbarProps) {
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-b border-zinc-200 px-4 pt-3 pb-6 space-y-4 shadow-xl">
           <div className="flex flex-col gap-2 pt-2 border-t border-zinc-100">
-            <span className="text-xs font-semibold text-zinc-500 uppercase">Direct Contact:</span>
+            <span className="text-xs font-bold text-zinc-700 uppercase">SR GRACE:</span>
             <a
               href="tel:0795597208"
               className="flex items-center gap-2 text-sm font-bold text-zinc-800"

@@ -18,11 +18,14 @@ import {
   MapPin,
   Calendar,
   CheckCircle,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 
 export default function HomePage() {
   const [services, setServices] = useState<ServiceItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [isServicesExpanded, setIsServicesExpanded] = useState<boolean>(false);
 
   // Modals state
   const [detailService, setDetailService] = useState<ServiceItem | null>(null);
@@ -56,6 +59,12 @@ export default function HomePage() {
     selectedCategory === "All"
       ? services
       : services.filter((s) => s.category === selectedCategory);
+
+  // When 'All' is active, show only top 6 unless expanded
+  const displayedServices =
+    selectedCategory === "All" && !isServicesExpanded
+      ? filteredServices.slice(0, 6)
+      : filteredServices;
 
   const handleOpenDetailModal = (service: ServiceItem) => {
     setDetailService(service);
@@ -113,7 +122,10 @@ export default function HomePage() {
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setIsServicesExpanded(false);
+              }}
               className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
                 selectedCategory === cat
                   ? "bg-[#111111] text-white shadow-md"
@@ -127,7 +139,7 @@ export default function HomePage() {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {filteredServices.map((service) => (
+          {displayedServices.map((service) => (
             <ServiceCard
               key={service.id}
               service={service}
@@ -136,6 +148,27 @@ export default function HomePage() {
             />
           ))}
         </div>
+
+        {/* Expand / Collapse Button (Top 6 toggle on 'All') */}
+        {selectedCategory === "All" && filteredServices.length > 6 && (
+          <div className="mt-10 flex justify-center">
+            <button
+              onClick={() => setIsServicesExpanded(!isServicesExpanded)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-zinc-900 bg-white border border-zinc-300 hover:border-zinc-400 hover:bg-zinc-50 shadow-sm transition-all duration-200 active:scale-95 group"
+            >
+              <span>
+                {isServicesExpanded
+                  ? "Show Less"
+                  : `See All (${filteredServices.length})`}
+              </span>
+              {isServicesExpanded ? (
+                <ChevronUp className="w-4 h-4 text-[#B81D24] transition-transform group-hover:-translate-y-0.5" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-[#B81D24] transition-transform group-hover:translate-y-0.5" />
+              )}
+            </button>
+          </div>
+        )}
       </section>
 
       {/* Feature Clinic Banner / Why Kenala Health Hub */}

@@ -72,7 +72,7 @@ export function EcgPulseLine({ className = "" }: { className?: string }) {
     <div className={`flex items-center gap-3 ${className}`}>
       <svg
         viewBox="0 0 240 40"
-        className="w-48 h-8 text-[#B81D24]"
+        className="w-48 h-8 text-[#B81D24] animate-ecg-pulse"
         fill="none"
         stroke="currentColor"
         strokeWidth="2.5"

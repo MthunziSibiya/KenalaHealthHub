@@ -89,7 +89,7 @@ export async function POST(req: Request) {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const merchantId = process.env.PAYFAST_MERCHANT_ID || "10000100";
     const merchantKey = process.env.PAYFAST_MERCHANT_KEY || "46f0cd694581a";
-    const passphrase = process.env.PAYFAST_PASSPHRASE || "jt7NOE43FZPn";
+    const passphrase = (process.env.PAYFAST_PASSPHRASE || "").trim();
 
     const nameParts = patientName.trim().split(" ");
     const nameFirst = nameParts[0] || "Patient";

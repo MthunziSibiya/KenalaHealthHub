@@ -6,11 +6,8 @@ import {
   Calendar,
   Clock,
   MapPin,
-  ShieldCheck,
   Heart,
-  Users,
   CheckCircle2,
-  Sparkles,
   ArrowRight,
   Phone,
   MessageCircle,
@@ -176,38 +173,6 @@ export function HeroSection({ onOpenBooking, onExploreServices }: HeroSectionPro
           </div>
         </div>
 
-        {/* 3 Core Pillars (From the Flyer Bottom) */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 pt-10 border-t border-zinc-200">
-          <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-zinc-200 shadow-sm hover:border-red-200 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-[#B81D24] flex-shrink-0">
-              <Users className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="font-bold text-sm text-zinc-900 uppercase tracking-wide">Compassionate Care</h4>
-              <p className="text-xs text-zinc-600 mt-1">"We care for you like family."</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-zinc-200 shadow-sm hover:border-red-200 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-[#B81D24] flex-shrink-0">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="font-bold text-sm text-zinc-900 uppercase tracking-wide">Quality Service</h4>
-              <p className="text-xs text-zinc-600 mt-1">"Professional care you can trust."</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-zinc-200 shadow-sm hover:border-red-200 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-[#B81D24] flex-shrink-0">
-              <Heart className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="font-bold text-sm text-zinc-900 uppercase tracking-wide">Healthy Community</h4>
-              <p className="text-xs text-zinc-600 mt-1">"Building a healthier tomorrow together."</p>
-            </div>
-          </div>
-        </div>
 
       </div>
     </section>

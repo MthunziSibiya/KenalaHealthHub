@@ -51,7 +51,8 @@ export function BookingModal({
   // Errors & Shake state
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [shakingField, setShakingField] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRedirectingPayFast, setIsRedirectingPayFast] = useState(false);
+  const [isSimulating, setIsSimulating] = useState(false);
 
   // Time slots available (08:00 - 17:00)
   const timeSlots = [
@@ -84,6 +85,22 @@ export function BookingModal({
       setSelectedServiceId(services[0].id);
     }
   }, [preselectedService, services]);
+
+  // Reset any loading or disabled state on step transition or modal open
+  useEffect(() => {
+    setIsRedirectingPayFast(false);
+    setIsSimulating(false);
+  }, [isOpen, step]);
+
+  // Handle browser back-forward navigation cache (bfcache) restoration
+  useEffect(() => {
+    const handlePageShow = () => {
+      setIsRedirectingPayFast(false);
+      setIsSimulating(false);
+    };
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
 
   if (!isOpen) return null;
 
@@ -136,7 +153,8 @@ export function BookingModal({
   };
 
   const handleSubmitBooking = async () => {
-    setIsSubmitting(true);
+    setIsRedirectingPayFast(true);
+    setErrors((prev) => ({ ...prev, submit: "" }));
     try {
       const res = await fetch("/api/bookings/create", {
         method: "POST",
@@ -157,6 +175,11 @@ export function BookingModal({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to create booking");
 
+      // Auto safety release after 8 seconds in case browser stays on page
+      setTimeout(() => {
+        setIsRedirectingPayFast(false);
+      }, 8000);
+
       // Redirect user to PayFast checkout
       const form = document.createElement("form");
       form.method = "POST";
@@ -175,13 +198,14 @@ export function BookingModal({
       document.body.appendChild(form);
       form.submit();
     } catch (err: any) {
-      setIsSubmitting(false);
+      setIsRedirectingPayFast(false);
       triggerShake("submit", err.message || "Failed to process booking");
     }
   };
 
   const handleSimulateTestConfirmation = async () => {
-    setIsSubmitting(true);
+    setIsSimulating(true);
+    setErrors((prev) => ({ ...prev, submit: "" }));
     try {
       const res = await fetch("/api/bookings/create", {
         method: "POST",
@@ -210,11 +234,11 @@ export function BookingModal({
       });
 
       const simData = await simRes.json();
-      setIsSubmitting(false);
+      setIsSimulating(false);
       onClose();
       onBookingSuccess(simData.booking || data.booking);
     } catch (err: any) {
-      setIsSubmitting(false);
+      setIsSimulating(false);
       triggerShake("submit", err.message || "Simulation failed");
     }
   };
@@ -609,6 +633,12 @@ export function BookingModal({
                 </div>
               </div>
 
+              {/* PayFast Same-Account Testing Note */}
+              <div className="bg-amber-50 border border-amber-200/80 rounded-xl p-3 text-[11px] text-amber-900 leading-relaxed">
+                <span className="font-bold text-amber-950 block mb-0.5">ℹ️ Testing PayFast Real Card Checkout:</span>
+                PayFast security strictly prohibits merchants from paying into their own account. When testing real card transactions, please use an <strong>Incognito window</strong> or a customer email different from your PayFast merchant login.
+              </div>
+
               {errors.submit && (
                 <p className="text-xs font-bold text-red-600 flex items-center gap-1">
                   <AlertTriangle className="w-3.5 h-3.5" /> {errors.submit}
@@ -623,7 +653,11 @@ export function BookingModal({
         <div className="p-6 bg-zinc-50 border-t border-zinc-100 flex items-center justify-between gap-3">
           {step > 1 ? (
             <button
-              onClick={() => setStep((prev) => (prev - 1) as any)}
+              onClick={() => {
+                setIsRedirectingPayFast(false);
+                setIsSimulating(false);
+                setStep((prev) => (prev - 1) as any);
+              }}
               className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold text-zinc-700 hover:bg-zinc-200 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" /> Back
@@ -662,21 +696,29 @@ export function BookingModal({
               <button
                 type="button"
                 onClick={handleSimulateTestConfirmation}
-                disabled={isSubmitting}
-                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-[11px] font-bold text-zinc-600 bg-zinc-200 hover:bg-zinc-300 transition-colors"
+                disabled={isSimulating}
+                className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-xl text-[11px] font-bold text-zinc-700 bg-zinc-200 hover:bg-zinc-300 transition-colors disabled:opacity-50"
                 title="Bypasses real bank payment for instant testing"
               >
-                ⚡ Instant Test Mode
+                {isSimulating ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Simulating...</span>
+                  </>
+                ) : (
+                  <span>⚡ Instant Test Mode</span>
+                )}
               </button>
               <button
+                type="button"
                 onClick={handleSubmitBooking}
-                disabled={isSubmitting}
-                className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 rounded-full text-xs font-bold text-white bg-[#B81D24] hover:bg-[#941319] shadow-lg shadow-red-600/30 transition-all active:scale-95 disabled:opacity-50"
+                disabled={isRedirectingPayFast}
+                className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 rounded-full text-xs font-bold text-white bg-[#B81D24] hover:bg-[#941319] shadow-lg shadow-red-600/30 transition-all active:scale-95 disabled:opacity-75"
               >
-                {isSubmitting ? (
+                {isRedirectingPayFast ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Redirecting to PayFast...</span>
+                    <span>Connecting PayFast...</span>
                   </>
                 ) : (
                   <>
