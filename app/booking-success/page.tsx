@@ -35,7 +35,7 @@ function BookingSuccessContent() {
         particleCount: 100,
         spread: 80,
         origin: { y: 0.5 },
-        colors: ["#B81D24", "#111111", "#E02830", "#10B981"],
+        colors: ["#007C89", "#0A2240", "#00A3AD", "#10B981"],
       });
     } catch (e) {}
 
@@ -75,7 +75,7 @@ function BookingSuccessContent() {
   const downloadIcs = () => {
     if (!booking) return;
     const title = `Appointment: ${booking.service?.name || "Consultation"} - Kenala Health Hub`;
-    const description = `Appointment with Sr Grace. Reference: ${booking.referenceCode}. Contact: 079 559 7208 / 079 011 8464.`;
+    const description = `Appointment with Sr Grace. Reference: ${booking.referenceCode}. Contact: 079 011 8464.`;
     const location = booking.patientAddress || "Corner Love drive & Alwyn str, ext 4, Nellmapius";
     const dateStr = booking.appointmentDate?.replace(/-/g, "") || "20261018";
 
@@ -128,7 +128,7 @@ function BookingSuccessContent() {
       <main className="max-w-xl mx-auto px-4 py-12 w-full">
         <div className="bg-white rounded-3xl shadow-xl border border-zinc-200 overflow-hidden">
           {/* Header */}
-          <div className="bg-[#111111] text-white p-8 text-center border-b-4 border-[#B81D24] relative">
+          <div className="bg-[#0A2240] text-white p-8 text-center border-b-4 border-[#007C89] relative">
             <div className="w-20 h-20 mx-auto rounded-full bg-emerald-500/20 border-2 border-emerald-500 flex items-center justify-center text-emerald-400 mb-4 shadow-lg shadow-emerald-500/30 animate-bounce">
               <CheckCircle2 className="w-12 h-12 text-emerald-500 fill-emerald-500/20" />
             </div>
@@ -141,9 +141,9 @@ function BookingSuccessContent() {
             </p>
 
             {/* Reference Badge */}
-            <div className="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-full bg-zinc-800 border border-zinc-700 text-xs">
+            <div className="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-full bg-zinc-800/80 border border-zinc-700 text-xs">
               <span className="text-zinc-400">Reference:</span>
-              <span className="font-extrabold text-[#E02830] text-sm tracking-wider">
+              <span className="font-extrabold text-[#00A3AD] text-sm tracking-wider">
                 {refCode || "KHH-CONFIRMED"}
               </span>
               <button
@@ -192,7 +192,7 @@ function BookingSuccessContent() {
                   <span>R{booking.amountPaid?.toFixed(2)}</span>
                 </div>
                 {booking.balanceDue > 0 && (
-                  <div className="flex justify-between text-[#B81D24] font-bold text-xs">
+                  <div className="flex justify-between text-[#007C89] font-bold text-xs">
                     <span>Balance Due on Visit:</span>
                     <span>R{booking.balanceDue?.toFixed(2)}</span>
                   </div>
@@ -206,7 +206,7 @@ function BookingSuccessContent() {
                 onClick={downloadIcs}
                 className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-bold text-zinc-900 bg-zinc-100 hover:bg-zinc-200 transition-colors"
               >
-                <Download className="w-4 h-4 text-[#B81D24]" />
+                <Download className="w-4 h-4 text-[#007C89]" />
                 Add to Calendar (.ics)
               </button>
 
@@ -214,7 +214,7 @@ function BookingSuccessContent() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition-colors shadow-sm"
+                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-bold text-white bg-[#007C89] hover:bg-[#005C66] transition-colors shadow-sm"
               >
                 <MessageCircle className="w-4 h-4" />
                 Chat on WhatsApp
@@ -224,7 +224,7 @@ function BookingSuccessContent() {
             <div className="pt-2 text-center">
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 text-xs font-bold text-[#B81D24] hover:underline"
+                className="inline-flex items-center gap-2 text-xs font-bold text-[#007C89] hover:underline"
               >
                 Return to Homepage <ArrowRight className="w-3.5 h-3.5" />
               </Link>

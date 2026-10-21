@@ -153,6 +153,18 @@ export function BookingModal({
   };
 
   const handleSubmitBooking = async () => {
+    // PayFast Guard: Prevent merchant self-payment error if user inputs their own merchant account email
+    const cleanEmail = patientEmail.toLowerCase().trim();
+    if (cleanEmail.includes("mthunzi") || cleanEmail.includes("futuredek")) {
+      triggerShake(
+        "patientEmail",
+        "PayFast rule: You cannot pay into your own merchant account using your merchant email. Please enter a different customer email or click 'Instant Test Mode'."
+      );
+      setStep(2);
+      setIsRedirectingPayFast(false);
+      return;
+    }
+
     setIsRedirectingPayFast(true);
     setErrors((prev) => ({ ...prev, submit: "" }));
     try {
@@ -254,8 +266,8 @@ export function BookingModal({
       {/* Modal Dialog */}
       <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-zinc-200 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
         
-        {/* Header */}
-        <div className="bg-[#111111] text-white p-6 border-b-4 border-[#B81D24] relative">
+        {/* Header (FNB Blue Accent) */}
+        <div className="bg-[#111111] text-white p-6 border-b-4 border-[#007C89] relative">
           <button
             onClick={onClose}
             className="absolute top-5 right-5 p-2 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
@@ -263,7 +275,7 @@ export function BookingModal({
             <X className="w-5 h-5" />
           </button>
 
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[#E02830] px-2 py-0.5 rounded bg-red-950/60 inline-block mb-1">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#00A3AD] px-2 py-0.5 rounded bg-cyan-950/60 inline-block mb-1">
             Step {step} of 3
           </span>
           <h2 className="text-2xl font-extrabold text-white">
@@ -277,9 +289,9 @@ export function BookingModal({
 
           {/* Stepper Progress Bar */}
           <div className="grid grid-cols-3 gap-2 mt-4">
-            <div className={`h-1.5 rounded-full ${step >= 1 ? "bg-[#B81D24]" : "bg-zinc-700"}`} />
-            <div className={`h-1.5 rounded-full ${step >= 2 ? "bg-[#B81D24]" : "bg-zinc-700"}`} />
-            <div className={`h-1.5 rounded-full ${step >= 3 ? "bg-[#B81D24]" : "bg-zinc-700"}`} />
+            <div className={`h-1.5 rounded-full ${step >= 1 ? "bg-[#007C89]" : "bg-zinc-700"}`} />
+            <div className={`h-1.5 rounded-full ${step >= 2 ? "bg-[#007C89]" : "bg-zinc-700"}`} />
+            <div className={`h-1.5 rounded-full ${step >= 3 ? "bg-[#007C89]" : "bg-zinc-700"}`} />
           </div>
         </div>
 
@@ -297,7 +309,7 @@ export function BookingModal({
                 <select
                   value={selectedServiceId}
                   onChange={(e) => setSelectedServiceId(e.target.value)}
-                  className={`w-full p-3.5 rounded-xl border text-sm font-semibold bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#B81D24] ${
+                  className={`w-full p-3.5 rounded-xl border text-sm font-semibold bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#007C89] ${
                     errors.service ? "border-red-500 bg-red-50" : "border-zinc-300"
                   }`}
                 >
@@ -326,7 +338,7 @@ export function BookingModal({
                       type="date"
                       value={appointmentDate}
                       onChange={(e) => setAppointmentDate(e.target.value)}
-                      className={`w-full p-3.5 rounded-xl border text-sm font-medium bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#B81D24] ${
+                      className={`w-full p-3.5 rounded-xl border text-sm font-medium bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#007C89] ${
                         errors.date ? "border-red-500 bg-red-50" : "border-zinc-300"
                       }`}
                     />
@@ -346,7 +358,7 @@ export function BookingModal({
                   <select
                     value={timeSlot}
                     onChange={(e) => setTimeSlot(e.target.value)}
-                    className={`w-full p-3.5 rounded-xl border text-sm font-medium bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#B81D24] ${
+                    className={`w-full p-3.5 rounded-xl border text-sm font-medium bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#007C89] ${
                       errors.timeSlot ? "border-red-500 bg-red-50" : "border-zinc-300"
                     }`}
                   >
@@ -361,14 +373,14 @@ export function BookingModal({
 
               {/* Service Price Summary Pill */}
               {currentService && (
-                <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 flex items-center justify-between text-xs">
+                <div className="p-4 rounded-2xl bg-[#F0F9FA] border border-[#B2E2E6] flex items-center justify-between text-xs">
                   <div>
                     <span className="text-zinc-500 block">Selected Consultation:</span>
                     <strong className="text-sm text-zinc-900">{currentService.name}</strong>
                   </div>
                   <div className="text-right">
                     <span className="text-zinc-500 block">Total Fee: R{currentService.price}</span>
-                    <span className="font-bold text-[#B81D24]">30% Deposit: R{retainerAmount}</span>
+                    <span className="font-bold text-[#007C89]">30% Deposit: R{retainerAmount}</span>
                   </div>
                 </div>
               )}
@@ -390,7 +402,7 @@ export function BookingModal({
                     placeholder="e.g. Lerato Khumalo"
                     value={patientName}
                     onChange={(e) => setPatientName(e.target.value)}
-                    className={`w-full pl-10 pr-3.5 py-3 rounded-xl border text-sm bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#B81D24] ${
+                    className={`w-full pl-10 pr-3.5 py-3 rounded-xl border text-sm bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#007C89] ${
                       errors.patientName ? "border-red-500 bg-red-50" : "border-zinc-300"
                     }`}
                   />
@@ -412,10 +424,10 @@ export function BookingModal({
                     <Phone className="absolute left-3.5 top-3.5 w-4 h-4 text-zinc-400" />
                     <input
                       type="tel"
-                      placeholder="e.g. 079 559 7208"
+                      placeholder="e.g. 079 011 8464"
                       value={patientPhone}
                       onChange={(e) => setPatientPhone(e.target.value)}
-                      className={`w-full pl-10 pr-3.5 py-3 rounded-xl border text-sm bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#B81D24] ${
+                      className={`w-full pl-10 pr-3.5 py-3 rounded-xl border text-sm bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#007C89] ${
                         errors.patientPhone ? "border-red-500 bg-red-50" : "border-zinc-300"
                       }`}
                     />
@@ -435,10 +447,10 @@ export function BookingModal({
                     <Mail className="absolute left-3.5 top-3.5 w-4 h-4 text-zinc-400" />
                     <input
                       type="email"
-                      placeholder="e.g. name@example.co.za"
+                      placeholder="e.g. client@example.co.za"
                       value={patientEmail}
                       onChange={(e) => setPatientEmail(e.target.value)}
-                      className={`w-full pl-10 pr-3.5 py-3 rounded-xl border text-sm bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#B81D24] ${
+                      className={`w-full pl-10 pr-3.5 py-3 rounded-xl border text-sm bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#007C89] ${
                         errors.patientEmail ? "border-red-500 bg-red-50" : "border-zinc-300"
                       }`}
                     />
@@ -455,26 +467,26 @@ export function BookingModal({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">
-                    Area
+                    Clinic / Area
                   </label>
                   <select
                     value={area}
                     onChange={(e) => setArea(e.target.value)}
-                    className="w-full p-3 rounded-xl border border-zinc-300 text-sm bg-zinc-50 text-zinc-900 focus:ring-2 focus:ring-[#B81D24]"
+                    className="w-full p-3 rounded-xl border border-zinc-300 text-sm bg-zinc-50 text-zinc-900 focus:ring-2 focus:ring-[#007C89]"
                   >
-                    <option value="Nellmapius">Nellmapius</option>
-                    <option value="Equestria">Equestria</option>
-                    <option value="Silverlakes">Silverlakes</option>
-                    <option value="Garsfontein">Garsfontein</option>
-                    <option value="Faerie Glen">Faerie Glen</option>
-                    <option value="Moreleta Park">Moreleta Park</option>
+                    <option value="Nellmapius">Nellmapius Clinic</option>
+                    <option value="Moreleta Park">Moreleta Park Clinic</option>
+                    <option value="Equestria">Equestria (Mobile)</option>
+                    <option value="Silverlakes">Silverlakes (Mobile)</option>
+                    <option value="Garsfontein">Garsfontein (Mobile)</option>
+                    <option value="Faerie Glen">Faerie Glen (Mobile)</option>
                     <option value="Pretoria East (Other)">Pretoria East (Other)</option>
                   </select>
                 </div>
 
                 <div className={`sm:col-span-2 ${shakingField === "patientAddress" ? "animate-shake" : ""}`}>
                   <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">
-                    Physical Address / Clinic Visit Location *
+                    Physical Address / Home Location *
                   </label>
                   <div className="relative">
                     <MapPin className="absolute left-3.5 top-3.5 w-4 h-4 text-zinc-400" />
@@ -483,7 +495,7 @@ export function BookingModal({
                       placeholder="e.g. Corner Love drive & Alwyn str, ext 4"
                       value={patientAddress}
                       onChange={(e) => setPatientAddress(e.target.value)}
-                      className={`w-full pl-10 pr-3.5 py-3 rounded-xl border text-sm bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#B81D24] ${
+                      className={`w-full pl-10 pr-3.5 py-3 rounded-xl border text-sm bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#007C89] ${
                         errors.patientAddress ? "border-red-500 bg-red-50" : "border-zinc-300"
                       }`}
                     />
@@ -508,7 +520,7 @@ export function BookingModal({
                     placeholder="Briefly describe any current symptoms, allergies, or questions for Sr Grace..."
                     value={medicalNotes}
                     onChange={(e) => setMedicalNotes(e.target.value)}
-                    className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm bg-zinc-50 text-zinc-900 focus:ring-2 focus:ring-[#B81D24]"
+                    className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-zinc-300 text-sm bg-zinc-50 text-zinc-900 focus:ring-2 focus:ring-[#007C89]"
                   />
                 </div>
               </div>
@@ -538,7 +550,7 @@ export function BookingModal({
                 </div>
               </div>
 
-              {/* Payment Choice Options (User Request: 30% Retainer vs 100% Full Payment) */}
+              {/* Payment Choice Options (30% Retainer vs 100% Full Payment) */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-2">
                   Select Payment Option *
@@ -550,18 +562,18 @@ export function BookingModal({
                     onClick={() => setPaymentChoice("RETAINER_30")}
                     className={`cursor-pointer p-4 rounded-2xl border-2 transition-all ${
                       paymentChoice === "RETAINER_30"
-                        ? "border-[#B81D24] bg-red-50/50 shadow-md"
+                        ? "border-[#007C89] bg-[#F0F9FA] shadow-md"
                         : "border-zinc-200 hover:border-zinc-300 bg-white"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#B81D24]">
+                      <span className="text-xs font-bold uppercase tracking-wider text-[#007C89]">
                         30% Mandatory Deposit
                       </span>
                       <div
                         className={`w-4 h-4 rounded-full border flex items-center justify-center ${
                           paymentChoice === "RETAINER_30"
-                            ? "border-[#B81D24] bg-[#B81D24]"
+                            ? "border-[#007C89] bg-[#007C89]"
                             : "border-zinc-400"
                         }`}
                       >
@@ -583,7 +595,7 @@ export function BookingModal({
                     onClick={() => setPaymentChoice("FULL_100")}
                     className={`cursor-pointer p-4 rounded-2xl border-2 transition-all ${
                       paymentChoice === "FULL_100"
-                        ? "border-[#B81D24] bg-red-50/50 shadow-md"
+                        ? "border-[#007C89] bg-[#F0F9FA] shadow-md"
                         : "border-zinc-200 hover:border-zinc-300 bg-white"
                     }`}
                   >
@@ -594,7 +606,7 @@ export function BookingModal({
                       <div
                         className={`w-4 h-4 rounded-full border flex items-center justify-center ${
                           paymentChoice === "FULL_100"
-                            ? "border-[#B81D24] bg-[#B81D24]"
+                            ? "border-[#007C89] bg-[#007C89]"
                             : "border-zinc-400"
                         }`}
                       >
@@ -636,7 +648,7 @@ export function BookingModal({
               {/* PayFast Same-Account Testing Note */}
               <div className="bg-amber-50 border border-amber-200/80 rounded-xl p-3 text-[11px] text-amber-900 leading-relaxed">
                 <span className="font-bold text-amber-950 block mb-0.5">ℹ️ Testing PayFast Real Card Checkout:</span>
-                PayFast security strictly prohibits merchants from paying into their own account. When testing real card transactions, please use an <strong>Incognito window</strong> or a customer email different from your PayFast merchant login.
+                PayFast security strictly prohibits merchants from paying into their own account. When testing real card transactions, please use an <strong>Incognito window</strong> and a customer email different from your PayFast merchant login.
               </div>
 
               {errors.submit && (
@@ -674,7 +686,7 @@ export function BookingModal({
           {step === 1 && (
             <button
               onClick={handleStep1Next}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-white bg-[#B81D24] hover:bg-[#941319] shadow-md transition-all active:scale-95"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-white bg-[#007C89] hover:bg-[#005C66] shadow-md transition-all active:scale-95"
             >
               <span>Continue to Contact</span>
               <ArrowRight className="w-4 h-4" />
@@ -684,7 +696,7 @@ export function BookingModal({
           {step === 2 && (
             <button
               onClick={handleStep2Next}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-white bg-[#B81D24] hover:bg-[#941319] shadow-md transition-all active:scale-95"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-white bg-[#007C89] hover:bg-[#005C66] shadow-md transition-all active:scale-95"
             >
               <span>Review & Payment</span>
               <ArrowRight className="w-4 h-4" />
@@ -713,7 +725,7 @@ export function BookingModal({
                 type="button"
                 onClick={handleSubmitBooking}
                 disabled={isRedirectingPayFast}
-                className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 rounded-full text-xs font-bold text-white bg-[#B81D24] hover:bg-[#941319] shadow-lg shadow-red-600/30 transition-all active:scale-95 disabled:opacity-75"
+                className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 rounded-full text-xs font-bold text-white bg-[#007C89] hover:bg-[#005C66] shadow-lg shadow-cyan-900/30 transition-all active:scale-95 disabled:opacity-75"
               >
                 {isRedirectingPayFast ? (
                   <>

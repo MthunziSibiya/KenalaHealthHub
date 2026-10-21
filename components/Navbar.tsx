@@ -19,17 +19,17 @@ export function Navbar({ onOpenBooking }: NavbarProps) {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4 text-zinc-300">
             <span className="flex items-center gap-1.5 font-medium">
-              <Clock className="w-3.5 h-3.5 text-[#B81D24]" />
+              <Clock className="w-3.5 h-3.5 text-[#00A3AD]" />
               Mon – Sat: 08:00 – 17:00 | Sun: By appointment
             </span>
             <span className="text-zinc-500">•</span>
             <span className="flex items-center gap-1.5 text-zinc-300">
-              <MapPin className="w-3.5 h-3.5 text-[#B81D24] flex-shrink-0" />
+              <MapPin className="w-3.5 h-3.5 text-[#00A3AD] flex-shrink-0" />
               Corner Love drive & Alwyn str, ext 4, Nellmapius
             </span>
           </div>
           <div className="flex items-center gap-4 text-zinc-400 text-[11px]">
-            <span>Nellmapius • Pretoria East</span>
+            <span>Nellmapius • Moreleta Park • Pretoria East</span>
           </div>
         </div>
       </div>
@@ -50,11 +50,12 @@ export function Navbar({ onOpenBooking }: NavbarProps) {
               </span>
               <div className="flex items-center gap-3 mt-0.5">
                 <a
-                  href="tel:0795597208"
-                  className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 hover:text-[#B81D24] transition-colors"
+                  href="tel:0790118464"
+                  className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 hover:text-[#007C89] transition-colors"
+                  title="Call Sr Grace"
                 >
-                  <Phone className="w-3.5 h-3.5 text-[#B81D24]" />
-                  079 559 7208
+                  <Phone className="w-3.5 h-3.5 text-[#007C89]" />
+                  079 011 8464
                 </a>
                 <span className="text-zinc-300">|</span>
                 <a
@@ -62,16 +63,17 @@ export function Navbar({ onOpenBooking }: NavbarProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors"
+                  title="Chat on WhatsApp"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
-                  079 011 8464
+                  WhatsApp
                 </a>
               </div>
             </div>
 
             <button
               onClick={onOpenBooking}
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full font-bold text-sm text-white bg-[#B81D24] hover:bg-[#941319] shadow-md hover:shadow-lg transition-all duration-200 active:scale-95"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-full font-bold text-sm text-white bg-[#007C89] hover:bg-[#005C66] shadow-md hover:shadow-lg transition-all duration-200 active:scale-95"
             >
               Book Appointment
             </button>
@@ -81,7 +83,7 @@ export function Navbar({ onOpenBooking }: NavbarProps) {
           <div className="md:hidden flex items-center gap-2">
             <button
               onClick={onOpenBooking}
-              className="px-3.5 py-2 rounded-full font-bold text-xs text-white bg-[#B81D24] hover:bg-[#941319] transition-all"
+              className="px-3.5 py-2 rounded-full font-bold text-xs text-white bg-[#007C89] hover:bg-[#005C66] transition-all"
             >
               Book
             </button>
@@ -102,11 +104,11 @@ export function Navbar({ onOpenBooking }: NavbarProps) {
           <div className="flex flex-col gap-2 pt-2 border-t border-zinc-100">
             <span className="text-xs font-bold text-zinc-700 uppercase">SR GRACE:</span>
             <a
-              href="tel:0795597208"
-              className="flex items-center gap-2 text-sm font-bold text-zinc-800"
+              href="tel:0790118464"
+              className="flex items-center gap-2 text-sm font-bold text-zinc-800 hover:text-[#007C89]"
             >
-              <Phone className="w-4 h-4 text-[#B81D24]" />
-              Call: 079 559 7208
+              <Phone className="w-4 h-4 text-[#007C89]" />
+              Call: 079 011 8464
             </a>
             <a
               href="https://wa.me/27790118464"
@@ -118,11 +120,11 @@ export function Navbar({ onOpenBooking }: NavbarProps) {
               WhatsApp: 079 011 8464
             </a>
             <div className="flex items-center gap-1.5 text-xs text-zinc-600 mt-2">
-              <MapPin className="w-3.5 h-3.5 text-[#B81D24] flex-shrink-0" />
+              <MapPin className="w-3.5 h-3.5 text-[#007C89] flex-shrink-0" />
               Corner Love drive & Alwyn str, ext 4, Nellmapius
             </div>
             <div className="flex items-center gap-1.5 text-xs text-zinc-600">
-              <Clock className="w-3.5 h-3.5 text-[#B81D24] flex-shrink-0" />
+              <Clock className="w-3.5 h-3.5 text-[#007C89] flex-shrink-0" />
               Mon – Sat: 08:00 – 17:00
             </div>
           </div>

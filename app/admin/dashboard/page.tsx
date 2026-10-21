@@ -147,13 +147,13 @@ export default function AdminDashboardPage() {
   return (
     <div className="min-h-screen bg-[#F4F5F7] text-zinc-900 flex flex-col">
       {/* Top Admin Navbar */}
-      <header className="bg-[#111111] text-white border-b-4 border-[#B81D24] px-6 py-4 sticky top-0 z-30 shadow-md">
+      <header className="bg-[#111111] text-white border-b-4 border-[#007C89] px-6 py-4 sticky top-0 z-30 shadow-md">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/">
               <BrandLogo size="sm" className="brightness-125" />
             </Link>
-            <span className="hidden sm:inline-block px-2.5 py-1 rounded bg-zinc-800 text-[11px] font-bold text-[#E02830] tracking-wider uppercase">
+            <span className="hidden sm:inline-block px-2.5 py-1 rounded bg-zinc-800 text-[11px] font-bold text-[#00A3AD] tracking-wider uppercase">
               Admin Portal
             </span>
           </div>
@@ -168,7 +168,7 @@ export default function AdminDashboardPage() {
               onClick={handleLogout}
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
             >
-              <LogOut className="w-3.5 h-3.5 text-[#B81D24]" />
+              <LogOut className="w-3.5 h-3.5 text-[#007C89]" />
               Sign Out
             </button>
           </div>
@@ -222,7 +222,7 @@ export default function AdminDashboardPage() {
               <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">
                 Total Appointments
               </span>
-              <div className="w-9 h-9 rounded-xl bg-red-50 text-[#B81D24] flex items-center justify-center">
+              <div className="w-9 h-9 rounded-xl bg-cyan-50 text-[#007C89] flex items-center justify-center">
                 <Calendar className="w-5 h-5" />
               </div>
             </div>
@@ -291,7 +291,7 @@ export default function AdminDashboardPage() {
                     onClick={() => setStatusFilter(st)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                       statusFilter === st
-                        ? "bg-[#B81D24] text-white"
+                        ? "bg-[#007C89] text-white"
                         : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
                     }`}
                   >
@@ -312,7 +312,7 @@ export default function AdminDashboardPage() {
                   placeholder="Search ref, patient, phone..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-zinc-200 text-xs bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#B81D24]"
+                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-zinc-200 text-xs bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#007C89]"
                 />
               </div>
             </div>
@@ -342,7 +342,7 @@ export default function AdminDashboardPage() {
                   ) : (
                     bookings.map((b) => (
                       <tr key={b.id} className="hover:bg-zinc-50 transition-colors">
-                        <td className="py-3.5 px-3 font-mono font-bold text-[#B81D24]">
+                        <td className="py-3.5 px-3 font-mono font-bold text-[#007C89]">
                           {b.referenceCode}
                         </td>
                         <td className="py-3.5 px-3">
@@ -426,7 +426,7 @@ export default function AdminDashboardPage() {
                   className="p-5 rounded-2xl border border-zinc-200 bg-zinc-50 flex items-start justify-between"
                 >
                   <div className="space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#B81D24]">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#007C89]">
                       {s.category}
                     </span>
                     <h4 className="font-bold text-sm text-zinc-900">{s.name}</h4>
@@ -439,7 +439,7 @@ export default function AdminDashboardPage() {
                       </div>
                       <div>
                         <span className="text-zinc-500">Deposit: </span>
-                        <strong className="text-[#B81D24]">
+                        <strong className="text-[#007C89]">
                           {s.retainerPercentage}% (R{Math.round(s.price * (s.retainerPercentage / 100))})
                         </strong>
                       </div>
@@ -466,7 +466,7 @@ export default function AdminDashboardPage() {
                     className="p-2 rounded-xl text-zinc-500 hover:text-zinc-900 hover:bg-zinc-200 transition-colors"
                     title="Edit Service"
                   >
-                    <Edit2 className="w-4 h-4 text-[#B81D24]" />
+                    <Edit2 className="w-4 h-4 text-[#007C89]" />
                   </button>
                 </div>
               ))}
@@ -480,10 +480,10 @@ export default function AdminDashboardPage() {
       {viewBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-zinc-200 overflow-hidden">
-            <div className="bg-[#111111] text-white p-6 border-b-4 border-[#B81D24] flex items-center justify-between">
+            <div className="bg-[#111111] text-white p-6 border-b-4 border-[#007C89] flex items-center justify-between">
               <div>
                 <span className="text-xs text-zinc-400">Appointment Management</span>
-                <h3 className="text-xl font-bold font-mono text-[#E02830]">
+                <h3 className="text-xl font-bold font-mono text-[#00A3AD]">
                   {viewBooking.referenceCode}
                 </h3>
               </div>
@@ -537,15 +537,15 @@ export default function AdminDashboardPage() {
                     R{viewBooking.amountPaid?.toFixed(2)}
                   </span>
                 </div>
-                <div className="flex justify-between text-[#B81D24] font-bold">
+                <div className="flex justify-between text-[#007C89] font-bold">
                   <span>Balance Due on Visit:</span>
                   <span>R{viewBooking.balanceDue?.toFixed(2)}</span>
                 </div>
               </div>
 
               {viewBooking.medicalNotes && (
-                <div className="p-3 bg-red-50/60 rounded-xl border border-red-100">
-                  <strong className="text-[#941319] block mb-1">Patient Notes / Symptoms:</strong>
+                <div className="p-3 bg-amber-50 rounded-xl border border-amber-200">
+                  <strong className="text-amber-800 block mb-1">Patient Notes / Symptoms:</strong>
                   <p className="text-zinc-700">{viewBooking.medicalNotes}</p>
                 </div>
               )}
@@ -583,7 +583,7 @@ export default function AdminDashboardPage() {
       {editingService && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-zinc-200 overflow-hidden">
-            <div className="bg-[#111111] text-white p-6 border-b-4 border-[#B81D24] flex items-center justify-between">
+            <div className="bg-[#111111] text-white p-6 border-b-4 border-[#007C89] flex items-center justify-between">
               <div>
                 <span className="text-xs text-zinc-400">Edit Clinical Service</span>
                 <h3 className="text-lg font-bold text-white">{editingService.name}</h3>
@@ -633,7 +633,7 @@ export default function AdminDashboardPage() {
                   id="activeToggle"
                   checked={editActive}
                   onChange={(e) => setEditActive(e.target.checked)}
-                  className="w-4 h-4 text-[#B81D24] rounded focus:ring-[#B81D24]"
+                  className="w-4 h-4 text-[#007C89] rounded focus:ring-[#007C89]"
                 />
                 <label htmlFor="activeToggle" className="text-xs font-bold text-zinc-800">
                   Service is Active & Available for Booking
@@ -649,7 +649,7 @@ export default function AdminDashboardPage() {
                 </button>
                 <button
                   onClick={handleSaveServiceEdit}
-                  className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#B81D24] hover:bg-[#941319] shadow-md transition-colors"
+                  className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#007C89] hover:bg-[#005C66] shadow-md transition-colors"
                 >
                   Save Changes
                 </button>

@@ -14,7 +14,7 @@ async function main() {
       id: "default",
       clinicName: "Kenala Health Hub",
       practitionerName: "Sr Grace",
-      phone: "079 559 7208",
+      phone: "079 011 8464",
       whatsappNumber: "079 011 8464",
       address: "Corner Love drive & Alwyn str, ext 4, Nellmapius",
       operatingHours: "Monday – Saturday: 08:00 – 17:00 | Sunday & Public Holidays: By appointment",

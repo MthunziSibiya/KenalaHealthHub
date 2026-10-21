@@ -26,17 +26,15 @@ export function SuccessModal({ isOpen, onClose, booking }: SuccessModalProps) {
 
   useEffect(() => {
     if (isOpen) {
-      // Fire confetti burst
+      // Fire confetti burst with FNB Blue & Emerald
       try {
         confetti({
           particleCount: 80,
           spread: 70,
           origin: { y: 0.6 },
-          colors: ["#B81D24", "#111111", "#E02830", "#10B981"],
+          colors: ["#007C89", "#111111", "#00A3AD", "#10B981"],
         });
-      } catch (e) {
-        // Safe fallback if canvas-confetti is not loaded
-      }
+      } catch (e) {}
     }
   }, [isOpen]);
 
@@ -52,11 +50,11 @@ export function SuccessModal({ isOpen, onClose, booking }: SuccessModalProps) {
 
   const downloadCalendarFile = () => {
     const title = `Appointment with Sr Grace (${booking.service?.name || "Consultation"})`;
-    const description = `Kenala Health Hub Appointment. Reference: ${booking.referenceCode}. Address: ${booking.patientAddress || "Corner Love drive & Alwyn str, ext 4, Nellmapius"}. Contact: 079 559 7208 / 079 011 8464.`;
-    const location = booking.patientAddress || "Corner Love drive & Alwyn str, ext 4, Nellmapius";
+    const description = `Kenala Health Hub Appointment. Reference: ${booking.referenceCode}. Address: ${booking.patientAddress || "Nellmapius Clinic Hub"}. Contact: 079 011 8464.`;
+    const location = booking.patientAddress || "Nellmapius Clinic Hub, Pretoria";
 
     // Format iCalendar date
-    const dateStr = booking.appointmentDate?.replace(/-/g, "") || "20261018";
+    const dateStr = booking.appointmentDate?.replace(/-/g, "") || "20261021";
     const startTime = "T080000";
     const endTime = "T090000";
 
@@ -99,8 +97,8 @@ export function SuccessModal({ isOpen, onClose, booking }: SuccessModalProps) {
       {/* Modal Dialog Card */}
       <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-zinc-200 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-300">
         
-        {/* Top Celebration Header */}
-        <div className="bg-[#111111] text-white p-6 sm:p-8 text-center border-b-4 border-[#B81D24] relative">
+        {/* Top Celebration Header (FNB Blue Accent) */}
+        <div className="bg-[#111111] text-white p-6 sm:p-8 text-center border-b-4 border-[#007C89] relative">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 p-2 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
@@ -108,7 +106,7 @@ export function SuccessModal({ isOpen, onClose, booking }: SuccessModalProps) {
             <X className="w-5 h-5" />
           </button>
 
-          {/* Animated Green / Crimson Badge */}
+          {/* Animated Green Badge */}
           <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-emerald-500/20 border-2 border-emerald-500 flex items-center justify-center text-emerald-400 mb-4 shadow-lg shadow-emerald-500/30 animate-bounce">
             <CheckCircle2 className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-500 fill-emerald-500/20" />
           </div>
@@ -123,7 +121,7 @@ export function SuccessModal({ isOpen, onClose, booking }: SuccessModalProps) {
           {/* Reference Code Pill */}
           <div className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full bg-zinc-800/90 border border-zinc-700 text-xs">
             <span className="text-zinc-400 font-medium">Booking Ref:</span>
-            <span className="font-extrabold text-[#E02830] tracking-wider text-sm">
+            <span className="font-extrabold text-[#00A3AD] tracking-wider text-sm">
               {booking.referenceCode}
             </span>
             <button
@@ -145,7 +143,7 @@ export function SuccessModal({ isOpen, onClose, booking }: SuccessModalProps) {
               <span>Direct WhatsApp Alert Dispatched to Sr Grace (079 011 8464)</span>
             </div>
             <div className="flex items-center gap-2 p-2.5 rounded-xl bg-zinc-50 text-zinc-700 border border-zinc-200 text-xs font-semibold">
-              <span className="w-2 h-2 rounded-full bg-blue-500" />
+              <span className="w-2 h-2 rounded-full bg-[#007C89]" />
               <span>Confirmation Email Sent to {booking.patientEmail || "Patient"}</span>
             </div>
           </div>
@@ -173,7 +171,7 @@ export function SuccessModal({ isOpen, onClose, booking }: SuccessModalProps) {
               <span className="text-emerald-700 text-sm">R{booking.amountPaid?.toFixed(2) || "0.00"}</span>
             </div>
             {booking.balanceDue > 0 && (
-              <div className="flex justify-between items-center text-[#B81D24] font-bold">
+              <div className="flex justify-between items-center text-[#007C89] font-bold">
                 <span>Remaining Balance (on visit):</span>
                 <span>R{booking.balanceDue?.toFixed(2)}</span>
               </div>
@@ -186,7 +184,7 @@ export function SuccessModal({ isOpen, onClose, booking }: SuccessModalProps) {
               onClick={downloadCalendarFile}
               className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-bold text-zinc-900 bg-zinc-100 hover:bg-zinc-200 transition-colors"
             >
-              <Download className="w-4 h-4 text-[#B81D24]" />
+              <Download className="w-4 h-4 text-[#007C89]" />
               Add to Calendar (.ics)
             </button>
 

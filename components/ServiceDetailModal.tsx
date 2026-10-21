@@ -33,8 +33,8 @@ export function ServiceDetailModal({
       {/* Modal Dialog Card */}
       <div className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-zinc-200 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-200">
         
-        {/* Top Crimson Banner */}
-        <div className="bg-[#111111] text-white p-6 border-b-4 border-[#B81D24] relative">
+        {/* Top FNB Blue Banner */}
+        <div className="bg-[#111111] text-white p-6 border-b-4 border-[#007C89] relative">
           <button
             onClick={onClose}
             className="absolute top-5 right-5 p-2 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
@@ -43,7 +43,7 @@ export function ServiceDetailModal({
             <X className="w-5 h-5" />
           </button>
 
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[#E02830] px-2 py-0.5 rounded bg-red-950/60 inline-block mb-2">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#00A3AD] px-2 py-0.5 rounded bg-cyan-950/60 inline-block mb-2">
             {service.category}
           </span>
           <h2 className="text-2xl font-extrabold text-white pr-8">
@@ -51,12 +51,12 @@ export function ServiceDetailModal({
           </h2>
           <div className="flex items-center gap-4 mt-2 text-xs text-zinc-300">
             <span className="flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5 text-[#B81D24]" />
+              <Clock className="w-3.5 h-3.5 text-[#00A3AD]" />
               Estimated Duration: {service.durationMinutes} Minutes
             </span>
             <span>•</span>
             <span className="flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#B81D24]" />
+              <ShieldCheck className="w-3.5 h-3.5 text-[#00A3AD]" />
               Administered by Sr Grace
             </span>
           </div>
@@ -76,10 +76,10 @@ export function ServiceDetailModal({
 
           {/* Preparation Guidelines */}
           {service.prepInstructions && (
-            <div className="p-4 rounded-2xl bg-red-50/70 border border-red-100 flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-[#B81D24] flex-shrink-0 mt-0.5" />
+            <div className="p-4 rounded-2xl bg-[#F0F9FA] border border-[#B2E2E6] flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-[#007C89] flex-shrink-0 mt-0.5" />
               <div>
-                <span className="text-xs font-bold text-[#941319] block mb-0.5">
+                <span className="text-xs font-bold text-[#005C66] block mb-0.5">
                   Preparation Guidelines
                 </span>
                 <p className="text-xs text-zinc-700 leading-normal">
@@ -101,7 +101,7 @@ export function ServiceDetailModal({
                 <span className="font-bold text-zinc-900">R{service.price.toFixed(2)}</span>
               </div>
 
-              <div className="flex justify-between items-center py-2 px-3 rounded-xl bg-red-50 text-[#B81D24] font-semibold border border-red-100">
+              <div className="flex justify-between items-center py-2 px-3 rounded-xl bg-[#F0F9FA] text-[#007C89] font-semibold border border-[#B2E2E6]">
                 <span className="flex items-center gap-1.5 text-xs sm:text-sm">
                   <CheckCircle className="w-4 h-4" />
                   Mandatory 30% Retainer (to secure slot):
@@ -135,7 +135,7 @@ export function ServiceDetailModal({
               onClose();
               onBookNow(service);
             }}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-white bg-[#B81D24] hover:bg-[#941319] shadow-md transition-all active:scale-95"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-white bg-[#007C89] hover:bg-[#005C66] shadow-md transition-all active:scale-95"
           >
             <span>Proceed to Book This Service</span>
             <ArrowRight className="w-4 h-4" />

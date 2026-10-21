@@ -70,11 +70,11 @@ export default function AdminLoginPage() {
       {/* Main Login Card */}
       <div className="max-w-md mx-auto w-full my-auto">
         <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
-          {/* Top Red Bar */}
-          <div className="absolute top-0 left-0 right-0 h-2 bg-[#B81D24]" />
+          {/* Top FNB Blue Bar */}
+          <div className="absolute top-0 left-0 right-0 h-2 bg-[#007C89]" />
 
           {/* Badge */}
-          <div className="w-12 h-12 rounded-2xl bg-red-950/70 border border-red-900 text-[#E02830] flex items-center justify-center mb-6">
+          <div className="w-12 h-12 rounded-2xl bg-[#007C89]/20 border border-[#007C89]/40 text-[#00A3AD] flex items-center justify-center mb-6">
             <ShieldCheck className="w-6 h-6" />
           </div>
 
@@ -99,7 +99,7 @@ export default function AdminLoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@kenalahealthhub.co.za"
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800/90 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#B81D24] transition-all"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800/90 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#007C89] transition-all"
                 />
               </div>
             </div>
@@ -126,7 +126,7 @@ export default function AdminLoginPage() {
                   className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm text-white placeholder-zinc-500 focus:outline-none transition-all ${
                     errorMsg
                       ? "border-red-500 bg-red-950/40 text-red-200 focus:ring-2 focus:ring-red-500"
-                      : "border-zinc-700 bg-zinc-800/90 focus:ring-2 focus:ring-[#B81D24]"
+                      : "border-zinc-700 bg-zinc-800/90 focus:ring-2 focus:ring-[#007C89]"
                   }`}
                 />
               </div>
@@ -144,7 +144,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full mt-2 inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-bold text-sm text-white bg-[#B81D24] hover:bg-[#941319] shadow-lg shadow-red-600/30 transition-all active:scale-95 disabled:opacity-50"
+              className="w-full mt-2 inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-bold text-sm text-white bg-[#007C89] hover:bg-[#005C66] shadow-lg shadow-[#007C89]/30 transition-all active:scale-95 disabled:opacity-50"
             >
               {isLoading ? (
                 <>

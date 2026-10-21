@@ -71,7 +71,7 @@ export function ServiceCard({
   const retainerAmount = Math.round(service.price * (service.retainerPercentage / 100));
 
   return (
-    <div className="group relative flex flex-col justify-between bg-white rounded-2xl p-6 border border-zinc-200 shadow-sm hover:shadow-xl hover:border-red-300 transition-all duration-300">
+    <div className="group relative flex flex-col justify-between bg-white rounded-2xl p-6 border border-zinc-200 shadow-sm hover:shadow-xl hover:border-[#00A3AD] transition-all duration-300">
       <div>
         {/* Category & Duration */}
         <div className="flex items-center justify-between gap-2 mb-4">
@@ -86,11 +86,11 @@ export function ServiceCard({
 
         {/* Icon & Title */}
         <div className="flex items-start gap-3.5 mb-3">
-          <div className="w-12 h-12 rounded-xl bg-red-50 text-[#B81D24] flex items-center justify-center flex-shrink-0 group-hover:bg-[#B81D24] group-hover:text-white transition-colors duration-300">
+          <div className="w-12 h-12 rounded-xl bg-[#F0F9FA] text-[#007C89] border border-[#B2E2E6]/50 flex items-center justify-center flex-shrink-0 group-hover:bg-[#007C89] group-hover:text-white transition-colors duration-300">
             {getIcon(service.icon)}
           </div>
           <div>
-            <h3 className="font-bold text-lg text-zinc-900 group-hover:text-[#B81D24] transition-colors leading-snug">
+            <h3 className="font-bold text-lg text-zinc-900 group-hover:text-[#007C89] transition-colors leading-snug">
               {service.name}
             </h3>
           </div>
@@ -113,10 +113,10 @@ export function ServiceCard({
           </div>
 
           <div className="text-right">
-            <span className="text-[10px] font-bold text-[#B81D24] uppercase tracking-wider block">
+            <span className="text-[10px] font-bold text-[#007C89] uppercase tracking-wider block">
               30% Deposit to Book
             </span>
-            <span className="text-sm font-extrabold text-[#B81D24]">
+            <span className="text-sm font-extrabold text-[#007C89]">
               R{retainerAmount}
             </span>
           </div>
@@ -133,7 +133,7 @@ export function ServiceCard({
 
           <button
             onClick={() => onSelectForBooking(service)}
-            className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-bold text-white bg-[#B81D24] hover:bg-[#941319] transition-colors shadow-sm"
+            className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-bold text-white bg-[#007C89] hover:bg-[#005C66] transition-colors shadow-sm"
           >
             Book Slot
             <ArrowRight className="w-3.5 h-3.5" />

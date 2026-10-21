@@ -78,7 +78,7 @@ model ClinicSetting {
   id                     String   @id @default("default")
   clinicName             String   @default("Kenala Health Hub")
   practitionerName       String   @default("Sr Grace")
-  phone                  String   @default("079 559 7208")
+  phone                  String   @default("079 011 8464")
   whatsappNumber         String   @default("079 011 8464")
   address                String   @default("Corner Love drive & Alwyn str, ext 4, Nellmapius")
   operatingHours         String   @default("Mon-Sat: 08:00 - 17:00, Sun: By appointment")

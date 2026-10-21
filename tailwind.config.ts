@@ -10,9 +10,15 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          crimson: "#B81D24",
-          crimsonDark: "#941319",
-          crimsonLight: "#E02830",
+          fnbBlue: "#007C89",
+          fnbBlueDark: "#005C66",
+          fnbBlueLight: "#00A3AD",
+          fnbNavy: "#0A2240",
+          fnbTint: "#F0F9FA",
+          // Mapped for backwards-compatibility
+          crimson: "#007C89",
+          crimsonDark: "#005C66",
+          crimsonLight: "#00A3AD",
           black: "#111111",
           darkSurface: "#18181B",
           cardDark: "#222227",
