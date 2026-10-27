@@ -144,7 +144,7 @@ export async function POST(req: Request) {
       email_address: trimmedEmail,
       m_payment_id: referenceCode,
       amount: amountToPay.toFixed(2),
-      item_name: `Kenala Health Hub: ${service.name} (${paymentChoice === "FULL_100" ? "Full Fee" : "30% Retainer"})`,
+      item_name: `Kenala Health Hub - ${service.name} - ${paymentChoice === "FULL_100" ? "Full Fee" : "30% Deposit"}`,
       item_description: `Appointment on ${appointmentDate} at ${timeSlot} for ${trimmedName}`,
       custom_str1: booking.id,
       custom_str2: paymentChoice,

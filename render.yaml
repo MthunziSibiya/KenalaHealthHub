@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: kenala-health-hub
+    runtime: node
+    plan: free
+    region: ohio
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: kenala-postgres
+          property: connectionString
+      - key: NEXT_PUBLIC_APP_URL
+        value: https://kenalahealthhub.co.za
+      - key: PAYFAST_SANDBOX
+        value: "false"
+      - key: PAYFAST_MERCHANT_ID
+        value: "35356073"
+      - key: PAYFAST_MERCHANT_KEY
+        value: "njrtvv2ytepwn"
+      - key: PAYFAST_PASSPHRASE
+        value: ""
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_NOTIFICATION_WHATSAPP
+        value: "27790118464"
+      - key: ADMIN_NOTIFICATION_EMAIL
+        value: "info@kenalahealthhub.co.za"
+
+databases:
+  - name: kenala-postgres
+    plan: free
+    region: ohio
+    databaseName: kenala_db
+    user: kenala_user
