@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { generatePayFastSignature, getPayFastUrl } from "@/lib/payfast";
+import { validateSouthAfricanPhone } from "@/lib/phone";
 
 function generateRefCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -31,6 +32,43 @@ export async function POST(req: Request) {
     if (!serviceId || !patientName || !patientPhone || !patientEmail || !patientAddress || !appointmentDate || !timeSlot) {
       return NextResponse.json(
         { error: "Please fill in all mandatory appointment fields." },
+        { status: 400 }
+      );
+    }
+
+    // Strict Name validation
+    const trimmedName = patientName.trim();
+    if (trimmedName.length < 2) {
+      return NextResponse.json(
+        { error: "Please enter the patient's full name (minimum 2 characters)." },
+        { status: 400 }
+      );
+    }
+
+    // Strict Email validation
+    const trimmedEmail = patientEmail.toLowerCase().trim();
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      return NextResponse.json(
+        { error: "Please enter a valid email address (e.g. name@example.co.za)." },
+        { status: 400 }
+      );
+    }
+
+    // Strict South African Phone validation
+    const phoneResult = validateSouthAfricanPhone(patientPhone);
+    if (!phoneResult.isValid) {
+      return NextResponse.json(
+        { error: phoneResult.error || "Please enter a valid South African phone number (e.g. 079 011 8464)." },
+        { status: 400 }
+      );
+    }
+
+    // Address validation
+    const trimmedAddress = patientAddress.trim();
+    if (trimmedAddress.length < 5) {
+      return NextResponse.json(
+        { error: "Please provide a complete street address or clinic location." },
         { status: 400 }
       );
     }
@@ -66,10 +104,10 @@ export async function POST(req: Request) {
       data: {
         referenceCode,
         serviceId: service.id,
-        patientName: patientName.trim(),
-        patientPhone: patientPhone.trim(),
-        patientEmail: patientEmail.toLowerCase().trim(),
-        patientAddress: patientAddress.trim(),
+        patientName: trimmedName,
+        patientPhone: phoneResult.formatted,
+        patientEmail: trimmedEmail,
+        patientAddress: trimmedAddress,
         area: area.trim(),
         appointmentDate,
         timeSlot,
@@ -91,7 +129,7 @@ export async function POST(req: Request) {
     const merchantKey = process.env.PAYFAST_MERCHANT_KEY || "46f0cd694581a";
     const passphrase = (process.env.PAYFAST_PASSPHRASE || "").trim();
 
-    const nameParts = patientName.trim().split(" ");
+    const nameParts = trimmedName.split(" ");
     const nameFirst = nameParts[0] || "Patient";
     const nameLast = nameParts.slice(1).join(" ") || "Client";
 
@@ -103,15 +141,19 @@ export async function POST(req: Request) {
       notify_url: `${appUrl}/api/payfast/itn`,
       name_first: nameFirst,
       name_last: nameLast,
-      email_address: patientEmail.toLowerCase().trim(),
-      cell_number: patientPhone.trim(),
+      email_address: trimmedEmail,
       m_payment_id: referenceCode,
       amount: amountToPay.toFixed(2),
       item_name: `Kenala Health Hub: ${service.name} (${paymentChoice === "FULL_100" ? "Full Fee" : "30% Retainer"})`,
-      item_description: `Appointment on ${appointmentDate} at ${timeSlot} for ${patientName}`,
+      item_description: `Appointment on ${appointmentDate} at ${timeSlot} for ${trimmedName}`,
       custom_str1: booking.id,
       custom_str2: paymentChoice,
     };
+
+    // PayFast cell_number: strictly digits only without spaces or punctuation
+    if (phoneResult.payfastCellNumber) {
+      payfastData.cell_number = phoneResult.payfastCellNumber;
+    }
 
     const signature = generatePayFastSignature(payfastData, passphrase);
     payfastData.signature = signature;

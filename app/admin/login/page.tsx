@@ -57,7 +57,7 @@ export default function AdminLoginPage() {
       {/* Top Bar */}
       <div className="max-w-6xl mx-auto w-full flex items-center justify-between py-4">
         <Link href="/">
-          <BrandLogo size="sm" className="brightness-125" />
+          <BrandLogo size="sm" isDark />
         </Link>
         <Link
           href="/"

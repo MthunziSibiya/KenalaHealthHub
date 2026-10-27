@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { ServiceItem } from "./ServiceCard";
+import { validateSouthAfricanPhone, formatPhoneAsYouType } from "@/lib/phone";
 import {
   X,
   Calendar,
@@ -135,13 +136,33 @@ export function BookingModal({
 
   const handleStep2Next = () => {
     const newErrors: Record<string, string> = {};
-    if (!patientName.trim()) newErrors.patientName = "Please enter the patient's full name";
-    if (!patientPhone.trim() || patientPhone.trim().length < 9)
-      newErrors.patientPhone = "Please enter a valid South African phone number";
-    if (!patientEmail.trim() || !patientEmail.includes("@"))
-      newErrors.patientEmail = "Please enter a valid email address for your confirmation";
-    if (!patientAddress.trim())
-      newErrors.patientAddress = "Please provide your street address / location";
+
+    // 1. Patient Name Validation
+    const trimmedName = patientName.trim();
+    if (!trimmedName || trimmedName.length < 2) {
+      newErrors.patientName = "Please enter the patient's full name (at least 2 letters)";
+    }
+
+    // 2. South African Phone Validation
+    const phoneCheck = validateSouthAfricanPhone(patientPhone);
+    if (!phoneCheck.isValid) {
+      newErrors.patientPhone = phoneCheck.error || "Please enter a valid South African phone number (e.g. 079 011 8464)";
+    } else {
+      setPatientPhone(phoneCheck.formatted);
+    }
+
+    // 3. Email Validation
+    const trimmedEmail = patientEmail.trim();
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!trimmedEmail || !emailRegex.test(trimmedEmail)) {
+      newErrors.patientEmail = "Please enter a valid email address (e.g. client@example.co.za)";
+    }
+
+    // 4. Address Validation
+    const trimmedAddress = patientAddress.trim();
+    if (!trimmedAddress || trimmedAddress.length < 5) {
+      newErrors.patientAddress = "Please provide your street address or clinic location";
+    }
 
     if (Object.keys(newErrors).length > 0) {
       const firstKey = Object.keys(newErrors)[0];
@@ -153,6 +174,14 @@ export function BookingModal({
   };
 
   const handleSubmitBooking = async () => {
+    // Re-verify phone format before initiating PayFast
+    const phoneCheck = validateSouthAfricanPhone(patientPhone);
+    if (!phoneCheck.isValid) {
+      triggerShake("patientPhone", phoneCheck.error || "Invalid phone number format");
+      setStep(2);
+      return;
+    }
+
     // PayFast Guard: Prevent merchant self-payment error if user inputs their own merchant account email
     const cleanEmail = patientEmail.toLowerCase().trim();
     if (cleanEmail.includes("mthunzi") || cleanEmail.includes("futuredek")) {
@@ -418,7 +447,7 @@ export function BookingModal({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className={`${shakingField === "patientPhone" ? "animate-shake" : ""}`}>
                   <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">
-                    WhatsApp Phone Number *
+                    WhatsApp / Cell Phone *
                   </label>
                   <div className="relative">
                     <Phone className="absolute left-3.5 top-3.5 w-4 h-4 text-zinc-400" />
@@ -426,16 +455,41 @@ export function BookingModal({
                       type="tel"
                       placeholder="e.g. 079 011 8464"
                       value={patientPhone}
-                      onChange={(e) => setPatientPhone(e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        const formatted = formatPhoneAsYouType(val);
+                        setPatientPhone(formatted);
+                        if (errors.patientPhone) {
+                          const check = validateSouthAfricanPhone(formatted);
+                          if (check.isValid) {
+                            setErrors((prev) => ({ ...prev, patientPhone: "" }));
+                          }
+                        }
+                      }}
+                      onBlur={() => {
+                        if (patientPhone.trim()) {
+                          const check = validateSouthAfricanPhone(patientPhone);
+                          if (!check.isValid) {
+                            setErrors((prev) => ({ ...prev, patientPhone: check.error || "Invalid phone number" }));
+                          } else {
+                            setErrors((prev) => ({ ...prev, patientPhone: "" }));
+                            setPatientPhone(check.formatted);
+                          }
+                        }
+                      }}
                       className={`w-full pl-10 pr-3.5 py-3 rounded-xl border text-sm bg-zinc-50 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-[#007C89] ${
                         errors.patientPhone ? "border-red-500 bg-red-50" : "border-zinc-300"
                       }`}
                     />
                   </div>
-                  {errors.patientPhone && (
+                  {errors.patientPhone ? (
                     <p className="text-xs font-bold text-red-600 mt-1 flex items-center gap-1">
-                      <AlertTriangle className="w-3.5 h-3.5" /> {errors.patientPhone}
+                      <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" /> {errors.patientPhone}
                     </p>
+                  ) : (
+                    <span className="text-[11px] text-zinc-500 mt-1 block">
+                      Standard 10-digit South African number (e.g. 079 011 8464)
+                    </span>
                   )}
                 </div>
 

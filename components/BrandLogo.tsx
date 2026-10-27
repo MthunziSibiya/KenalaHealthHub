@@ -4,9 +4,11 @@ interface BrandLogoProps {
   variant?: "full" | "icon-only" | "light";
   className?: string;
   size?: "sm" | "md" | "lg";
+  isDark?: boolean;
 }
 
-export function BrandLogo({ variant = "full", className = "", size = "md" }: BrandLogoProps) {
+export function BrandLogo({ variant = "full", className = "", size = "md", isDark = false }: BrandLogoProps) {
+  const isDarkMode = isDark || variant === "light";
   const iconSizes = {
     sm: "w-8 h-8",
     md: "w-11 h-11",
@@ -51,14 +53,14 @@ export function BrandLogo({ variant = "full", className = "", size = "md" }: Bra
       {variant !== "icon-only" && (
         <div className="flex flex-col leading-none">
           <div className="flex items-baseline gap-1.5">
-            <span className={`font-black tracking-tight text-[#007C89] ${titleSizes[size]}`}>
+            <span className={`font-black tracking-tight ${isDarkMode ? "text-[#00A3AD]" : "text-[#007C89]"} ${titleSizes[size]}`}>
               Kenala
             </span>
-            <span className={`font-black tracking-wide text-zinc-900 ${titleSizes[size]}`}>
+            <span className={`font-black tracking-wide ${isDarkMode ? "text-white" : "text-zinc-900"} ${titleSizes[size]}`}>
               <span className="text-[#007C89] mx-1">—</span>HEALTH HUB<span className="text-[#007C89] mx-1">—</span>
             </span>
           </div>
-          <span className={`font-bold uppercase text-zinc-600 mt-1 ${subSizes[size]}`}>
+          <span className={`font-bold uppercase ${isDarkMode ? "text-white" : "text-zinc-600"} mt-1 ${subSizes[size]}`}>
             CARE • COMPASSION • COMMUNITY
           </span>
         </div>
@@ -67,7 +69,7 @@ export function BrandLogo({ variant = "full", className = "", size = "md" }: Bra
   );
 }
 
-export function EcgPulseLine({ className = "" }: { className?: string }) {
+export function EcgPulseLine({ className = "", isDark = false }: { className?: string; isDark?: boolean }) {
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <svg
@@ -82,7 +84,9 @@ export function EcgPulseLine({ className = "" }: { className?: string }) {
         <path d="M0 20 H50 L58 10 L66 30 L74 6 L82 34 L90 20 H105 L112 12 C115 8 120 8 123 12 L125 15 L127 12 C130 8 135 8 138 12 L145 20 H160 L168 8 L176 32 L184 14 L192 26 L198 20 H240" />
       </svg>
       <div className="flex flex-col">
-        <span className="font-serif italic text-sm text-zinc-700 leading-tight">Your health,</span>
+        <span className={`font-serif italic text-sm ${isDark ? "text-zinc-200" : "text-zinc-700"} leading-tight`}>
+          Your health,
+        </span>
         <span className="font-black text-xs tracking-wider text-[#007C89] uppercase leading-tight">
           OUR PRIORITY.
         </span>

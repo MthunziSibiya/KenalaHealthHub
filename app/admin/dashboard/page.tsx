@@ -151,7 +151,7 @@ export default function AdminDashboardPage() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/">
-              <BrandLogo size="sm" className="brightness-125" />
+              <BrandLogo size="sm" isDark />
             </Link>
             <span className="hidden sm:inline-block px-2.5 py-1 rounded bg-zinc-800 text-[11px] font-bold text-[#00A3AD] tracking-wider uppercase">
               Admin Portal

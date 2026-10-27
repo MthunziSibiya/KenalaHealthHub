@@ -17,7 +17,6 @@ import {
   MessageCircle,
   MapPin,
   Calendar,
-  CheckCircle,
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
@@ -191,21 +190,6 @@ export default function HomePage() {
                   rigorous clinical safety, and warm bedside manner whether you visit our Nellmapius or Moreleta Park clinics or
                   request mobile nursing across Equestria, Silverlakes, Garsfontein, and surrounding suburbs.
                 </p>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-                  <div className="flex items-center gap-2.5">
-                    <CheckCircle className="w-5 h-5 text-[#00A3AD] flex-shrink-0" />
-                    <span className="text-xs font-medium text-zinc-200">Registered Professional Nurse</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <CheckCircle className="w-5 h-5 text-[#00A3AD] flex-shrink-0" />
-                    <span className="text-xs font-medium text-zinc-200">Verified Slot Security</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <CheckCircle className="w-5 h-5 text-[#00A3AD] flex-shrink-0" />
-                    <span className="text-xs font-medium text-zinc-200">Instant PayFast Checkout</span>
-                  </div>
-                </div>
               </div>
 
               <div className="lg:col-span-4 flex flex-col gap-3 justify-center items-start lg:items-end">
